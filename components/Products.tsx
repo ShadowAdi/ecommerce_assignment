@@ -27,7 +27,7 @@ const Products = () => {
   const [getCategory, setGetCategory] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("All");
   const [sort, setSort] = useState<string>("asc");
-  const [limit, setLimit] = useState<Number>(5);
+  const [limit, setLimit] = useState<number>(5);
 
   const getAllCategory = () => {
     axios
