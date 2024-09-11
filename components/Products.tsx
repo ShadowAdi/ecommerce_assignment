@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
 
 interface Product {
   id: string;
@@ -26,6 +27,7 @@ const Products = () => {
   const [getCategory, setGetCategory] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("All");
   const [sort, setSort] = useState<string>("asc");
+  const [limit, setLimit] = useState<Number>(5);
 
   const getAllCategory = () => {
     axios
@@ -41,9 +43,8 @@ const Products = () => {
 
   const getAllProducts = () => {
     axios
-      .get("https://fakestoreapi.com/products?sort=" + sort)
+      .get("https://fakestoreapi.com/products?sort=" + sort + "&limit=" + limit)
       .then((res) => {
-        // Filter products based on the selected category
         const filteredProducts =
           category === "All"
             ? res.data
@@ -63,7 +64,7 @@ const Products = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, [category,sort]);
+  }, [category, sort, limit]);
 
   return (
     <main className="flex lg:flex-row flex-col items-start gap-3">
@@ -102,6 +103,10 @@ const Products = () => {
             <Label htmlFor="desc">Descending</Label>
           </div>
         </RadioGroup>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="limit">Limit</Label>
+          <Input onChange={(e)=>setLimit(Number(e.target.value))} type="number" id="limit" placeholder="5" />
+        </div>
       </div>
       <div className="px-3 py-5 flex-[0.8]  border-l-2 border-gray-300">
         <h3 className="text-xl font-semibold mb-3">Products</h3>
